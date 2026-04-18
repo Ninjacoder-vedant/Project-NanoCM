@@ -1,0 +1,26 @@
+nohup: ignoring input
+RESPONSE GENERATION STARTED FOR MODEL : SFT_unsloth_Qwen3-4B-unsloth-bnb-4bit
+/home/zeus/miniconda3/envs/cloudspace/lib/python3.12/site-packages/torch/cuda/__init__.py:1007: UserWarning: Can't initialize NVML
+  raw_cnt = _raw_device_count_nvml()
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+/home/zeus/miniconda3/envs/cloudspace/lib/python3.12/site-packages/torch/cuda/__init__.py:1007: UserWarning: Can't initialize NVML
+  raw_cnt = _raw_device_count_nvml()
+/home/zeus/miniconda3/envs/cloudspace/lib/python3.12/site-packages/torch/cuda/__init__.py:1007: UserWarning: Can't initialize NVML
+  raw_cnt = _raw_device_count_nvml()
+🦥 Unsloth Zoo will now patch everything to make training faster!
+==((====))==  Unsloth 2026.4.6: Fast Qwen3 patching. Transformers: 4.56.2.
+   \\   /|    NVIDIA RTX PRO 6000 Blackwell Server Edition. Num GPUs = 1. Max memory: 94.971 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.10.0+cu128. CUDA: 12.0. CUDA Toolkit: 12.8. Triton: 3.6.0
+\        /    Bfloat16 = TRUE. FA [Xformers = 0.0.35. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Unsloth 2026.4.6 patched 36 layers with 0 QKV layers, 0 O layers and 0 MLP layers.
+Pipeline started for model: SFT_unsloth_Qwen3-4B-unsloth-bnb-4bit
+Sampled 20 problems: A=10, B=5, C=5
+difficulty=A:   0%|          | 0/5 [00:00<?, ?it/s]Retrying 1/2 in batch (index=A) — missing code block. IDs: ['1998/A']
+Retry STILL MISSING code — id=1998/A
+Saved — index=A, id=1993/A, retry=False, has_code=True
+Saved — index=A, id=1998/A, retry=True, has_code=False
+difficulty=A:  20%|██        | 1/5 [31:44<2:06:56, 1904.20s/it]Saved — index=A, id=1999/A, retry=False, has_code=True
+Saved — index=A, id=2000/A, retry=False, has_code=True
+difficulty=A:  40%|████      | 2/5 [57:40<1:24:59, 1699.77s/it]

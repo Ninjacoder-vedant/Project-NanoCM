@@ -1,0 +1,39 @@
+nohup: ignoring input
+RESPONSE GENERATION STARTED FOR MODEL : unsloth/Qwen3-4B-unsloth-bnb-4bit
+/home/zeus/miniconda3/envs/cloudspace/lib/python3.12/site-packages/torch/cuda/__init__.py:1007: UserWarning: Can't initialize NVML
+  raw_cnt = _raw_device_count_nvml()
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+/home/zeus/miniconda3/envs/cloudspace/lib/python3.12/site-packages/torch/cuda/__init__.py:1007: UserWarning: Can't initialize NVML
+  raw_cnt = _raw_device_count_nvml()
+/home/zeus/miniconda3/envs/cloudspace/lib/python3.12/site-packages/torch/cuda/__init__.py:1007: UserWarning: Can't initialize NVML
+  raw_cnt = _raw_device_count_nvml()
+🦥 Unsloth Zoo will now patch everything to make training faster!
+==((====))==  Unsloth 2026.4.6: Fast Qwen3 patching. Transformers: 4.56.2.
+   \\   /|    NVIDIA RTX PRO 6000 Blackwell Server Edition. Num GPUs = 1. Max memory: 94.971 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.10.0+cu128. CUDA: 12.0. CUDA Toolkit: 12.8. Triton: 3.6.0
+\        /    Bfloat16 = TRUE. FA [Xformers = 0.0.35. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.89it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.46it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.35it/s]
+unsloth/qwen3-4b does not have a padding token! Will use pad_token = <|PAD_TOKEN|>.
+Pipeline started for model: unsloth/Qwen3-4B-unsloth-bnb-4bit
+Sampled 20 problems: A=10, B=5, C=5
+Already done — difficulty=A, id=1993/A
+Already done — difficulty=A, id=1998/A
+Already done — difficulty=A, id=1999/A
+Already done — difficulty=A, id=2000/A
+Already done — difficulty=A, id=2001/A
+Already done — difficulty=A, id=2002/A
+difficulty=A:   0%|          | 0/2 [00:00<?, ?it/s]Saved — index=A, id=2003/A, retry=False, has_code=True
+Saved — index=A, id=2004/A, retry=False, has_code=True
+difficulty=A:  50%|█████     | 1/2 [12:09<12:09, 729.83s/it]Saved — index=A, id=2005/A, retry=False, has_code=True
+Saved — index=A, id=2006/A, retry=False, has_code=True
+difficulty=A: 100%|██████████| 2/2 [32:25<00:00, 1015.74s/it]difficulty=A: 100%|██████████| 2/2 [32:25<00:00, 972.85s/it] 
+Difficulty=A complete → /teamspace/studios/this_studio/inference/responses/unsloth_Qwen3-4B-unsloth-bnb-4bit/A/response.json
+difficulty=B:   0%|          | 0/3 [00:00<?, ?it/s]Retrying 1/2 in batch (index=B) — missing code block. IDs: ['1993/B']
+Retry STILL MISSING code — id=1993/B
+Saved — index=B, id=1993/B, retry=True, has_code=False
+Saved — index=B, id=1998/B, retry=False, has_code=True
+difficulty=B:  33%|███▎      | 1/3 [26:19<52:39, 1579.92s/it]Saved — index=B, id=1999/B, retry=False, has_code=True
+Saved — index=B, id=2000/B, retry=False, has_code=True
+difficulty=B:  67%|██████▋   | 2/3 [31:13<13:43, 823.37s/it] 
