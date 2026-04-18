@@ -17,10 +17,40 @@ Unsloth: Fast downloading is enabled - ignore downloading bars which are red col
 Unsloth 2026.4.6 patched 36 layers with 0 QKV layers, 0 O layers and 0 MLP layers.
 Pipeline started for model: SFT_unsloth_Qwen3-4B-unsloth-bnb-4bit
 Sampled 20 problems: A=10, B=5, C=5
-difficulty=A:   0%|          | 0/5 [00:00<?, ?it/s]Retrying 1/2 in batch (index=A) — missing code block. IDs: ['1998/A']
-Retry STILL MISSING code — id=1998/A
-Saved — index=A, id=1993/A, retry=False, has_code=True
-Saved — index=A, id=1998/A, retry=True, has_code=False
-difficulty=A:  20%|██        | 1/5 [31:44<2:06:56, 1904.20s/it]Saved — index=A, id=1999/A, retry=False, has_code=True
-Saved — index=A, id=2000/A, retry=False, has_code=True
-difficulty=A:  40%|████      | 2/5 [57:40<1:24:59, 1699.77s/it]
+Already done — difficulty=A, id=1993/A
+Already done — difficulty=A, id=1998/A
+Already done — difficulty=A, id=1999/A
+Already done — difficulty=A, id=2000/A
+Already done — difficulty=A, id=2001/A
+Already done — difficulty=A, id=2002/A
+Already done — difficulty=A, id=2003/A
+Already done — difficulty=A, id=2004/A
+difficulty=A:   0%|          | 0/1 [00:00<?, ?it/s]Retrying 1/2 in batch (index=A) — missing code block. IDs: ['2006/A']
+Retry SUCCESS — id=2006/A
+Saved — index=A, id=2005/A, retry=False, has_code=True
+Saved — index=A, id=2006/A, retry=True, has_code=True
+difficulty=A: 100%|██████████| 1/1 [14:37<00:00, 877.84s/it]difficulty=A: 100%|██████████| 1/1 [14:37<00:00, 877.84s/it]
+Difficulty=A complete → /teamspace/studios/this_studio/inference/responses/SFT_unsloth_Qwen3-4B-unsloth-bnb-4bit/A/response.json
+difficulty=B:   0%|          | 0/3 [00:00<?, ?it/s]Retrying 1/2 in batch (index=B) — missing code block. IDs: ['1993/B']
+Retry SUCCESS — id=1993/B
+Saved — index=B, id=1993/B, retry=True, has_code=True
+Saved — index=B, id=1998/B, retry=False, has_code=True
+difficulty=B:  33%|███▎      | 1/3 [13:59<27:59, 839.51s/it]Saved — index=B, id=1999/B, retry=False, has_code=True
+Saved — index=B, id=2000/B, retry=False, has_code=True
+difficulty=B:  67%|██████▋   | 2/3 [25:39<12:37, 757.62s/it]Saved — index=B, id=2002/B, retry=False, has_code=True
+difficulty=B: 100%|██████████| 3/3 [30:06<00:00, 533.49s/it]difficulty=B: 100%|██████████| 3/3 [30:06<00:00, 602.20s/it]
+Difficulty=B complete → /teamspace/studios/this_studio/inference/responses/SFT_unsloth_Qwen3-4B-unsloth-bnb-4bit/B/response.json
+difficulty=C:   0%|          | 0/3 [00:00<?, ?it/s]Retrying 1/2 in batch (index=C) — missing code block. IDs: ['1998/C']
+Retry SUCCESS — id=1998/C
+Saved — index=C, id=1998/C, retry=True, has_code=True
+Saved — index=C, id=1999/C, retry=False, has_code=True
+difficulty=C:  33%|███▎      | 1/3 [14:17<28:34, 857.24s/it]Retrying 1/2 in batch (index=C) — missing code block. IDs: ['2004/C']
+Retry SUCCESS — id=2004/C
+Saved — index=C, id=2000/C, retry=False, has_code=True
+Saved — index=C, id=2004/C, retry=True, has_code=True
+difficulty=C:  67%|██████▋   | 2/3 [28:25<14:12, 852.19s/it]Retrying 1/1 in batch (index=C) — missing code block. IDs: ['2005/C']
+Retry SUCCESS — id=2005/C
+Saved — index=C, id=2005/C, retry=True, has_code=True
+difficulty=C: 100%|██████████| 3/3 [35:06<00:00, 646.01s/it]difficulty=C: 100%|██████████| 3/3 [35:06<00:00, 702.18s/it]
+Difficulty=C complete → /teamspace/studios/this_studio/inference/responses/SFT_unsloth_Qwen3-4B-unsloth-bnb-4bit/C/response.json
+Pipeline finished.

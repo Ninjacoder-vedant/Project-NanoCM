@@ -1,5 +1,5 @@
 For hf model
-- nohup python batch_generation.py --model unsloth/Qwen3-4B-unsloth-bnb-4bit -- model_name unsloth_Qwen3-4B-unsloth-bnb-4bit --load_in_4bit  > run.log 2>&1 &
+- nohup python batch_generation.py --model unsloth/Qwen3-4B-unsloth-bnb-4bit --model_name unsloth_Qwen3-4B-unsloth-bnb-4bit --load_in_4bit  > run.log 2>&1 &
 For our model 
 - nohup python batch_generation.py --model /teamspace/gcs_folders/Models/final --model_name SFT_unsloth_Qwen3-4B-unsloth-bnb-4bit --load_in_4bit > run_2.log 2>&1 &
 Identify PID:

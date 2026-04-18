@@ -155,7 +155,7 @@ def generate_batch_responses(batch_prompts, batch_ids, idx):
         retry_texts = [
             tokenizer.apply_chat_template(
                 [{"role": "user", "content": rp}],  # no system prompt — just give code
-                tokenize=False, add_generation_prompt=True,
+                tokenize=False, add_generation_prompt=True, enable_thinking=False
             )
             for rp in retry_prompts
         ]
