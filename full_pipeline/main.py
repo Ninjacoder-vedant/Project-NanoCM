@@ -527,6 +527,56 @@ Think step-by-step inside <think></think> tags, then provide your solution.
         return trainer_stats
 
 # ==========================================
+# TEST CASE EXTRACTION UTILITY
+# ==========================================
+def _extract_combined_tests(row: Dict) -> Tuple[List[str], List[str]]:
+    """
+    Build a unified test suite from all available test columns in the
+    open-r1/codeforces-cots dataset.
+
+    Priority / merge strategy
+    -------------------------
+    1. Collect tests from ``public_tests``, ``private_tests``, and
+       ``generated_tests`` (each is a list of dicts with ``"input"`` /
+       ``"output"`` keys, or None / empty).
+    2. If the combined set is non-empty, return it.
+    3. Otherwise fall back to the ``examples`` column (same dict format),
+       which is always present for every problem.
+
+    Returns
+    -------
+    input_tests  : list[str]  – one entry per test case
+    output_tests : list[str]  – corresponding expected outputs
+    """
+    input_tests: List[str] = []
+    output_tests: List[str] = []
+
+    for col in ("public_tests", "private_tests", "generated_tests"):
+        test_list = row.get(col) or []
+        for tc in test_list:
+            if not isinstance(tc, dict):
+                continue
+            inp = tc.get("input")
+            out = tc.get("output")
+            if inp is not None and out is not None:
+                input_tests.append(str(inp))
+                output_tests.append(str(out))
+
+    # Fall back to examples if none of the three columns yielded any tests
+    if not input_tests:
+        for ex in (row.get("examples") or []):
+            if not isinstance(ex, dict):
+                continue
+            inp = ex.get("input")
+            out = ex.get("output")
+            if inp is not None and out is not None:
+                input_tests.append(str(inp))
+                output_tests.append(str(out))
+
+    return input_tests, output_tests
+
+
+# ==========================================
 # ENHANCED REWARD FUNCTIONS (Same as before)
 # ==========================================
 class EnhancedRewards:
@@ -704,16 +754,20 @@ class MemoryEfficientGRPO:
         self.data_loader = StreamingDataLoader(config)
     
     def _format_grpo_example(self, row: Dict) -> Dict:
-        """Format for GRPO"""
-        examples = row.get('examples', [])
-        input_tests = [str(ex['input']) for ex in examples]
-        output_tests = [str(ex['output']) for ex in examples]
-        
+        """Format for GRPO.
+
+        Test cases are built by merging public_tests, private_tests, and
+        generated_tests.  If all three are absent or empty, we fall back to
+        the examples column so that every problem always has at least one
+        test to evaluate against.
+        """
+        input_tests, output_tests = _extract_combined_tests(row)
+
         prompt = (
             "Think step-by-step in <think></think> tags, then code.\n\n"
             f"{row['prompt']}\n\n<think>\n"
         )
-        
+
         return {
             "prompt": prompt,
             "input_tests": input_tests,
@@ -980,15 +1034,19 @@ class SimpleBenchmark:
         return results
     
     def _format_for_eval(self, sample: Dict) -> Optional[Dict]:
-        """Format sample for evaluation"""
+        """Format sample for evaluation.
+
+        Mirrors the GRPO formatter: merges public_tests, private_tests, and
+        generated_tests; falls back to examples when all three are empty.
+        """
         try:
-            examples = sample.get('examples', [])
+            input_tests, output_tests = _extract_combined_tests(sample)
             return {
                 'prompt': f"{sample['prompt']}\n\n<think>\n",
-                'input_tests': [str(ex['input']) for ex in examples],
-                'output_tests': [str(ex['output']) for ex in examples],
+                'input_tests': input_tests,
+                'output_tests': output_tests,
             }
-        except:
+        except Exception:
             return None
     
     def _generate_solution(self, prompt: str) -> str:
