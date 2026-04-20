@@ -73,9 +73,9 @@ class MemoryEfficientConfig:
     
     # Model
     model_name: str = "unsloth/Qwen3-4B-unsloth-bnb-4bit"
-    max_seq_length: int = 4096
+    max_seq_length: int = 8192
     load_in_4bit: bool = True
-    
+     
     # LoRA configuration (stable settings)
     lora_r: int = 32
     lora_alpha: int = 64
@@ -103,24 +103,24 @@ class MemoryEfficientConfig:
     grpo_batch_size: int = 4   # 4 parallel prompts at once
     grpo_grad_accum: int = 2   # Effective batch = 8
     grpo_learning_rate: float = 3e-6
-    grpo_num_generations: int = 4  # HUGE: Generates 16 reasoning variations per prompt (takes lots of VRAM but makes RL insanely smart)
-    grpo_max_completion_length: int = 4096  # Ample space for long-chain reasoning
+    grpo_num_generations: int = 2  # HUGE: Generates 16 reasoning variations per prompt (takes lots of VRAM but makes RL insanely smart)
+    grpo_max_completion_length: int = 2048  # Ample space for long-chain reasoning
     
     # Memory management
     clear_cache_every_n_steps: int = 50
     max_dataset_cache_size: int = 1000  # Max samples to keep in memory
-    
+         
     # Checkpointing
-    save_steps: int = 500
-    save_total_limit: int = 2  # Keep only 2 checkpoints
-    resume_from_checkpoint: Optional[str] = None
-    
+    save_steps: int = 20
+    save_total_limit: int = 5  # Keep only 2 checkpoints
+    resume_from_checkpoint: Optional[str] = "outputs/grpo_full_dataset/checkpoint-140"
+      
     # Paths
     sft_output_dir: str = "outputs/sft_full_dataset"
     grpo_output_dir: str = "outputs/grpo_full_dataset"
     final_model_dir: str = "outputs/final_model_full"
     benchmark_dir: str = "outputs/benchmarks_full"
-    
+      
     # System
     seed: int = 3407
     report_to: str = "wandb"  # Visualizing with Weights & Biases
@@ -146,7 +146,7 @@ class MemoryEfficientConfig:
             }
 
 config = MemoryEfficientConfig()
-
+ 
 # ==========================================
 # MEMORY MANAGEMENT UTILITIES
 # ==========================================
@@ -159,7 +159,7 @@ class MemoryManager:
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
         gc.collect()
-    
+      
     @staticmethod
     def print_memory_stats():
         """Print current memory usage"""
@@ -763,9 +763,18 @@ class MemoryEfficientGRPO:
         """
         input_tests, output_tests = _extract_combined_tests(row)
 
+        
+        messages = row.get("messages", [])
+
+        user_msg = ""
+        for msg in messages:
+            if msg.get("role") == "user":
+                user_msg = msg.get("content", "")
+        
+
         prompt = (
             "Think step-by-step in <think></think> tags, then code.\n\n"
-            f"{row['prompt']}\n\n<think>\n"
+            f"{user_msg}\n\n<think>\n"
         )
 
         return {
@@ -783,11 +792,18 @@ class MemoryEfficientGRPO:
         print("="*70)
         
         # Load mixed difficulty dataset
-        dataset = self.data_loader.load_mixed_difficulty_dataset(
+        iterable_dataset = self.data_loader.load_mixed_difficulty_dataset(
             samples_per_difficulty=self.config.grpo_samples_per_difficulty,
             format_fn=self._format_grpo_example,
             shuffle_buffer_size=500
         )
+        
+        print("Converting to standard Dataset for GRPOTrainer...")
+        def generator():
+            for sample in iterable_dataset:
+                yield sample
+                
+        dataset = Dataset.from_generator(generator)
         
         total = sum(self.config.grpo_samples_per_difficulty.values())
         print(f"✓ GRPO dataset: {total} samples")
@@ -851,7 +867,7 @@ class MemoryEfficientGRPO:
         print("🚀 Starting GRPO training...")
         MemoryManager.print_memory_stats()
         
-        trainer.train()
+        trainer.train(resume_from_checkpoint=self.config.resume_from_checkpoint)
         
         print("\n💾 Saving model...")
         trainer.save_model(self.config.grpo_output_dir + "/final")
@@ -1120,8 +1136,8 @@ def main():
     # print("STEP 1: Curriculum SFT")
     # print("="*70)
     
-    # sft_pipeline = CurriculumSFT(config)
-    # sft_pipeline.load_model()
+    sft_pipeline = CurriculumSFT(config)
+    sft_pipeline.load_model()
     # train_ds, eval_ds = sft_pipeline.prepare_curriculum_dataset()
     # sft_stats = sft_pipeline.train_sft(train_ds, eval_ds)
     
@@ -1135,8 +1151,8 @@ def main():
     
     grpo_pipeline = MemoryEfficientGRPO(
         config,
-        # sft_pipeline.model,
-        "./final",
+        sft_pipeline.model,
+        # "./final",
         sft_pipeline.tokenizer
     )
     grpo_ds = grpo_pipeline.prepare_grpo_dataset()
@@ -1177,7 +1193,7 @@ def main():
     return {
         'sft_stats': sft_stats,
         'benchmark_results': results,
-    }
+    } 
 
 if __name__ == "__main__":
     results = main()
