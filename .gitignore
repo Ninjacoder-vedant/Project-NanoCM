@@ -1,6 +1,12 @@
 __pycache__
 unsloth_compiled_cache
+hf_cache
 datasets
 checkpoints
 wandb
 outputs
+final_ds.parquet
+logs
+qwen3_4b_cf_merged
+# qwen3_4b_cf_lora
+# responses/SFT_Final_Qwen3-4B-unsloth-bnb-4bit

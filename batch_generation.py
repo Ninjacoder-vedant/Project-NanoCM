@@ -48,8 +48,10 @@ MAX_NEW_TOKENS = args.max_new_tokens
 base_filepath = os.getcwd()
 model_dir_name = model_name.replace("/", "_")
 
-SYSTEM_PROMPT = "Do all the reasoning before giving code output in <think>..</think> tags. Just give the code in ```cpp ``` after completing reasoning"
-
+SYSTEM_PROMPT = ("You're an expert competitive C++ programmer"
+                 "Do all the reasoning before giving code output in "
+                 "<think>..</think> tags. Just give the code in ```cpp ``` "
+                 "after completing reasoning")
 
 # ! Logging
 log_filename = f"{base_filepath}/pipeline_logs.txt"
@@ -134,7 +136,7 @@ def generate_batch_responses(batch_prompts, batch_ids, idx):
         outputs = model.generate(
             **inputs,
             max_new_tokens=MAX_NEW_TOKENS,
-            do_sample=True, temperature=0.7, top_p=0.8, top_k=20,
+            do_sample=True, temperature=0.6, top_p=0.95, top_k=20,
             pad_token_id=tokenizer.pad_token_id, use_cache=True,
         )
     first_responses = tokenizer.batch_decode(outputs[:, input_len:], skip_special_tokens=True)
